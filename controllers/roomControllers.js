@@ -15,15 +15,25 @@ const newRoom = catchAsyncError(async (req, res) => {
 
 // fetch all room
 const allRooms = catchAsyncError(async (req, res) => {
-  // const rooms = await Room.find();
+  // pagination
+  const resPerPage = 4;
+  const roomsCount = await Room.countDocuments();
+  //
 
+  // const rooms = await Room.find();
   const apiFeatures = new APIFeatures(Room.find(), req.query).search().filter();
 
-  const rooms = await apiFeatures.query;
+  let rooms = apiFeatures.query;
+  let filteredRoomsCount = rooms.length;
+
+  apiFeatures.pagination(resPerPage);
+  rooms = await apiFeatures.query;
 
   res.status(200).json({
     success: true,
-    count: rooms.length,
+    roomsCount,
+    resPerPage,
+    filteredRoomsCount,
     rooms,
   });
 });

@@ -24,10 +24,18 @@ class APIFeatures {
 
     // remove filed LOCATION from query
     // because this field using for SEARCH
-    const removeField = ["location"];
+    const removeField = ["location", "page"];
     removeField.forEach((el) => delete queryCopy[el]);
 
     this.query = this.query.find(queryCopy);
+    return this;
+  }
+
+  pagination(resPerPage) {
+    const currentPage = Number(this.queryStr.page) || 1;
+    const skip = resPerPage * (currentPage - 1);
+
+    this.query = this.query.limit(resPerPage).skip(skip);
     return this;
   }
 }
