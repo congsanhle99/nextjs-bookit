@@ -17,7 +17,7 @@ const newRoom = catchAsyncError(async (req, res) => {
 const allRooms = catchAsyncError(async (req, res) => {
   // const rooms = await Room.find();
 
-  const apiFeatures = new APIFeatures(Room.find(), req.query).search();
+  const apiFeatures = new APIFeatures(Room.find(), req.query).search().filter();
 
   const rooms = await apiFeatures.query;
 

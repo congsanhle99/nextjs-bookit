@@ -18,6 +18,18 @@ class APIFeatures {
     this.query = this.query.find({ ...location });
     return this;
   }
+
+  filter() {
+    const queryCopy = { ...this.queryStr };
+
+    // remove filed LOCATION from query
+    // because this field using for SEARCH
+    const removeField = ["location"];
+    removeField.forEach((el) => delete queryCopy[el]);
+
+    this.query = this.query.find(queryCopy);
+    return this;
+  }
 }
 
 export default APIFeatures;
